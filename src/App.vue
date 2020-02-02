@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Welcome to The Teeter Totter Game!</h1>
+    <!-- <h1>Welcome to The Teeter Totter Game!</h1> -->
     <div class="text-center">
       <Game/>
     </div>
