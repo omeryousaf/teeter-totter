@@ -1,7 +1,7 @@
 <template>
   <div class="game-height game-width d-inline-block">
     <div class="space-above-scale"></div>
-    <Weight v-for="weight in weights" :key="weight.id" :id="weight.id" :shape="weight.shape" :right="weight.right"/>
+    <Weight v-for="weight in weights" :key="weight.id" :id="weight.id" :right="weight.right"/>
     <Scale/>
     <button style="position: absolute; left: 50px; top: 50px" @click="togglePause">{{pauseOrResume}}</button>
     <h3 v-if="gameOver" style="color: yellow">Game Over</h3>

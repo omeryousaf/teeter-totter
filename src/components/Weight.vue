@@ -1,5 +1,5 @@
 <template>
-	<div :class="{right: 'right'}" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px' }">{{mass}},{{torque}}</div>
+	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: width + 'px', height: height + 'px', 'background-color': color,  transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
 </template>
 
 <script>
@@ -9,19 +9,25 @@ export default {
   name: 'Weight',
   props: {
     id: Number,
-    right: Boolean,
-    shape: String
+    right: Boolean
   },
   data() {
+    const shapeId = Math.round(Math.random() * 2);
+    const shape = shapeId === 2 ? 'circle' : (shapeId === 1 ? 'rectangle' : 'triangle');
+    const mass = Math.ceil(Math.random() * 10);
     return {
-      mass: Math.ceil(Math.random() * 10),
+      mass: mass,
+      shape: shape,
+      color: 'blue',
+      width: mass * 5,
+      height: mass * 5,
       leftOffset: 0,
       topOffset: 0,
       torque: 0,
       hasHitTheScale: false
     }
   },
-  computed: mapState(['timer', 'scaleCenter', 'isLeftKeyPressed', 'isRightKeyPressed']),
+  computed: mapState(['timer', 'scaleCenter', 'isLeftKeyPressed', 'isRightKeyPressed', 'scaleRotatedByDeg', 'lastWeightColor']),
   watch: {
     timer: function() {
       this.fall();
@@ -42,15 +48,17 @@ export default {
     }
   },
   created() {
-    this.leftOffset = this.right ? this.scaleCenter.x + Math.round(Math.random() * 250) : this.scaleCenter.x - Math.round(Math.random() * 250);
+    this.color = this.lastWeightColor === 'blue' ? 'red' : 'blue';
+    this.$store.commit('setLastWeightColor', this.color);
+    this.leftOffset = this.right ? this.scaleCenter.x + Math.round(Math.random() * 250) - this.width : this.scaleCenter.x - Math.round(Math.random() * 250);
   },
   methods: {
     fall() {
-      if(this.scaleCenter.y - this.topOffset < 5) {
+      if(this.scaleCenter.y - (this.topOffset + this.height) < 1) {
         this.computeTorque();
         return;
       }
-      this.topOffset += 1;
+      this.topOffset += 0.5;
     },
     computeTorque() {
       const distanceFromPivotX = Math.abs(this.leftOffset - this.scaleCenter.x)/50;
@@ -72,11 +80,11 @@ export default {
 
 <style scoped>
 	.right {
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
 		display: inline-block;
-		background-color: red;
     position: absolute;
+    color: white;
+	}
+	.circle {
+		border-radius: 50%;
 	}
 </style>

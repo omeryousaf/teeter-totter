@@ -13,7 +13,8 @@ const store = new Vuex.Store({
     torqueOnLeft: 0,
     torqueOnRight: 0,
     isLeftKeyPressed: false,
-    isRightKeyPressed: false
+    isRightKeyPressed: false,
+    lastWeightColor: 'blue'
   },
   mutations: {
     toggleLeftKeyPressed(state) {
@@ -42,6 +43,9 @@ const store = new Vuex.Store({
     },
     setZeroRotation(state) {
       state.scaleRotatedByDeg = 0;
+    },
+    setLastWeightColor(state, color) {
+      state.lastWeightColor = color;
     }
   }
 });

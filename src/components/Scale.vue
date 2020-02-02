@@ -1,6 +1,5 @@
 <template>
 	<div>
-    <span :style="{ position: 'absolute', left: centerX + 'px', top: centerY + 'px', 'background-color': 'blue', width: '20px', height: '30px'}"></span>
 		<div class="bar" :style="{ transform: 'rotate(' + scaleRotatedByDeg + 'deg)'}" ref="scaleElem" :class="{ 'trans-to-balance': scaleRotatedByDeg == 0 }"></div>
 	</div>
 </template>
@@ -17,19 +16,19 @@ export default {
       centerY: 0
     };
   },
-  computed: mapState(['timer', 'scaleRotatedByDeg', 'torqueOnLeft', 'torqueOnRight']),
+  computed: mapState(['timer', 'scaleCenter', 'scaleRotatedByDeg', 'torqueOnLeft', 'torqueOnRight']),
   watch: {
     timer: function() {
       this.updateBalance();
     }
   },
   mounted() {
-    this.$store.commit('setScaleCenter', {
-      x: this.$refs.scaleElem.getBoundingClientRect().left + this.$refs.scaleElem.offsetWidth/2,
-      y: this.$refs.scaleElem.getBoundingClientRect().top
-    });
     this.centerX = this.$refs.scaleElem.getBoundingClientRect().left + this.$refs.scaleElem.offsetWidth/2;
-    this.centerY = this.$refs.scaleElem.getBoundingClientRect().top
+    this.centerY = this.$refs.scaleElem.getBoundingClientRect().top + this.$refs.scaleElem.offsetHeight/2;
+    this.$store.commit('setScaleCenter', {
+      x: this.centerX,
+      y: this.centerY
+    });
   },
   methods: {
     updateBalance() {
@@ -47,7 +46,7 @@ export default {
 
 <style scoped>
   div.trans-to-balance {
-    transition: transform 2s ease-in-out;
+    transition: transform 1.5s;
   }
   div.bar {
     width: 500px;
