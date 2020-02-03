@@ -1,5 +1,5 @@
 <template>
-	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: width + 'px', height: height + 'px', 'background-color': color,  transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
+	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: width + 'px', height: height + 'px', 'background-color': shape !== 'triangle' ? color : '', 'border-left': shape == 'triangle' ? height + 'px solid transparent' : '', 'border-right': shape == 'triangle' ? height + 'px solid transparent' : '', 'border-bottom': shape == 'triangle' ? 2 * height + 'px solid ' + color : '', transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
 </template>
 
 <script>
@@ -87,4 +87,8 @@ export default {
 	.circle {
 		border-radius: 50%;
 	}
+	.triangle {
+    width: 0 !important;
+    height: 0 !important;
+  }
 </style>

@@ -1,10 +1,17 @@
 <template>
-  <div class="game-height game-width d-inline-block">
-    <div class="space-above-scale"></div>
-    <Weight v-for="weight in weights" :key="weight.id" :id="weight.id" :right="weight.right"/>
-    <Scale/>
-    <button style="position: absolute; left: 50px; top: 50px" @click="togglePause">{{pauseOrResume}}</button>
-    <h3 v-if="gameOver" style="color: yellow">Game Over</h3>
+  <div>
+    <div class="game-height game-width d-inline-block">
+      <div class="space-above-scale"></div>
+      <Weight v-for="weight in weights" :key="weight.id" :id="weight.id" :right="weight.right"/>
+      <Scale/>
+      <div v-if="gameOver" style="color: yellow">
+        <h3>Game Over</h3>
+        <div>Refresh page to Play again</div>
+      </div>
+    </div>
+    <div>
+      <button style="background-color: teal; color: white; font-size: 2em; border-radius: 3px;" @click="togglePause">{{pauseOrResume}}</button>
+    </div>
   </div>
 </template>
 
@@ -32,7 +39,7 @@ export default {
       gameOver: false
     }
   },
-  computed: mapState(['timer', 'scaleRotatedByDeg']),
+  computed: mapState(['timer', 'scaleRotatedByDeg', 'scaleCenter']),
   watch: {
     timer: function() {
       this.endGame();
@@ -57,32 +64,34 @@ export default {
         this.$store.commit('toggleRightKeyPressed');
       }
     },
+    startTimer() {
+      const self = this;
+      this.timerHandle = setInterval(function() {
+        self.$store.commit('incrementTimer');
+      }, 10);
+    },
     startGame() {
       this.weights.push({
         id: this.weights.length + 1,
-        shape: 'circle',
         right: true
       });
       this.weights.push({
         id: this.weights.length + 1,
-        shape: 'circle',
         right: false
       });
-      const self = this;
-      this.timerHandle = setInterval(function() {
-        console.log(`ticks count: ${self.ticks}`);
-        self.$store.commit('incrementTimer');
-      }, 10);
+      this.startTimer();
+    },
+    resumePlay() {
+      this.startTimer();
     },
     endGame() {
       if (this.isPaused) {
-        console.log(`scaleRotatedByDeg: ${this.scaleRotatedByDeg}`);
         clearInterval(this.timerHandle);
       } else {
-        // this.startGame();
         if (this.scaleRotatedByDeg > 30 || this.scaleRotatedByDeg < -30) {
           this.gameOver = true;
-          // clearInterval(this.timerHandle);
+          clearInterval(this.timerHandle);
+          this.weights = [];
         }
       }
     },
@@ -90,7 +99,7 @@ export default {
       this.isPaused = !this.isPaused;
       this.pauseOrResume = !this.isPaused ? 'Pause' : 'Resume';
       if(!this.isPaused) {
-        this.startGame();
+        this.resumePlay();
       }
     }
   }
