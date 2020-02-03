@@ -1,5 +1,5 @@
 <template>
-	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: width + 'px', height: height + 'px', 'background-color': shape !== 'triangle' ? color : '', 'border-left': shape == 'triangle' ? height + 'px solid transparent' : '', 'border-right': shape == 'triangle' ? height + 'px solid transparent' : '', 'border-bottom': shape == 'triangle' ? 2 * height + 'px solid ' + color : '', transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
+	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: shape !== 'triangle' ? width + 'px' : '0', height: shape !== 'triangle' ? height + 'px' : '0', 'background-color': shape !== 'triangle' ? color : '', 'border-left': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-right': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-bottom': shape == 'triangle' ? height + 'px solid ' + color : '', transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
 </template>
 
 <script>
@@ -49,6 +49,7 @@ export default {
   },
   created() {
     this.color = this.lastWeightColor === 'blue' ? 'red' : 'blue';
+    this.height = this.shape === 'triangle' ? this.height * 2 : this.height;
     this.$store.commit('setLastWeightColor', this.color);
     this.leftOffset = this.right ? this.scaleCenter.x + Math.round(Math.random() * 250) - this.width : this.scaleCenter.x - Math.round(Math.random() * 250);
   },
@@ -87,8 +88,4 @@ export default {
 	.circle {
 		border-radius: 50%;
 	}
-	.triangle {
-    width: 0 !important;
-    height: 0 !important;
-  }
 </style>

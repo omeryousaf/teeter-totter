@@ -4,7 +4,7 @@
       <div class="space-above-scale"></div>
       <Weight v-for="weight in weights" :key="weight.id" :id="weight.id" :right="weight.right"/>
       <Scale/>
-      <div v-if="gameOver" style="color: yellow">
+      <div v-if="gameOver" style="color: orange; margin-top: 80px;">
         <h3>Game Over</h3>
         <div>Refresh page to Play again</div>
       </div>

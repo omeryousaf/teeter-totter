@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<div class="bar" :style="{ transform: 'rotate(' + scaleRotatedByDeg + 'deg)'}" ref="scaleElem" :class="{ 'trans-to-balance': scaleRotatedByDeg == 0 }"></div>
-	</div>
+    <div class="pivot" :style="{ position: 'absolute', left: (scaleCenter.x - 20) + 'px' }"></div>
+  </div>
 </template>
 
 <script>
@@ -53,5 +54,13 @@ export default {
     height: 10px;
     display: inline-block;
     background-color: green;
+  }
+  div.pivot {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 80px solid yellow;
+    margin-top: -5px;
   }
 </style>
