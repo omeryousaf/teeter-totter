@@ -46,13 +46,13 @@ export default {
     }
   },
   created() {
-    window.addEventListener('keyup', this.onLeftOrRightKeyPress);
+    window.addEventListener('keydown', this.onLeftOrRightKeyPress);
   },
   mounted () {
     this.startGame();
   },
   beforeDestroy: function () {
-    window.removeEventListener('keyup', this.onLeftOrRightKeyPress);
+    window.removeEventListener('keydown', this.onLeftOrRightKeyPress);
   },
   methods: {
     onLeftOrRightKeyPress(event) {
