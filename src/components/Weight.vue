@@ -1,5 +1,5 @@
 <template>
-	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: shape !== 'triangle' ? width + 'px' : '0', height: shape !== 'triangle' ? height + 'px' : '0', 'background-color': shape !== 'triangle' ? color : '', 'border-left': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-right': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-bottom': shape == 'triangle' ? height + 'px solid ' + color : '', transform: 'rotate(' + scaleRotatedByDeg + 'deg)' }">{{mass}}kg</div>
+	<div :class="[{right: 'right'}, shape]" :style="{ position: 'absolute', left: leftOffset + 'px', top: topOffset + 'px', width: shape !== 'triangle' ? width + 'px' : '0', height: shape !== 'triangle' ? height + 'px' : '0', 'background-color': shape !== 'triangle' ? color : '', 'border-left': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-right': shape == 'triangle' ? height/2 + 'px solid transparent' : '', 'border-bottom': shape == 'triangle' ? height + 'px solid ' + color : '', transform: 'rotate(' + scaleRotatedByDeg + 'deg)', 'transform-origin': (scaleCenter.x - leftOffset) + 'px ' + (scaleCenter.y - topOffset) + 'px' }">{{mass}}kg</div>
 </template>
 
 <script>
